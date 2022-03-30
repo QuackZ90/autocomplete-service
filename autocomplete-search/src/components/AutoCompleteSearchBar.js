@@ -41,7 +41,7 @@ function AutoCompleteSearchBar(props){
 
     useEffect(()=>{
         setSearchTerm('');
-    },[location]);
+    },[location, setSearchTerm]);
 
     //retrive search results from backend and update local search results
     useEffect(()=>{
@@ -71,6 +71,7 @@ function AutoCompleteSearchBar(props){
                 };
 
                 if(res.data.results.data.length>=200 || !res.data.results.incompleteResults){ //log query if current API returns complete results.
+                    console.log('test');
                     previousSearches.current[endpoint].push(endpoint+query);
                 }
             }).catch(err=>{
@@ -107,6 +108,7 @@ function AutoCompleteSearchBar(props){
                 re = new RegExp(re,'i');
 
                 console.log(previousSearchResults);
+                console.log(previousSearches.current);
                 let filteredResults = previousSearchResults[endpoint].filter(result=>re.test(result));
                 console.log(filteredResults);
                 if(filteredResults.length!==0){

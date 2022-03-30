@@ -1,6 +1,11 @@
 import AutoCompleteSearchBar from "../components/AutoCompleteSearchBar";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import './SearchPage.css';
+import { useLocation } from "react-router-dom";
+
+const FIELDS_TO_SHOW = {
+    code:['name', 'repo','org']
+}
 
 function CodeSearchPage(){
 
@@ -9,7 +14,10 @@ function CodeSearchPage(){
     const[repo, setRepo] = useState('');
     const[searchQualifiers, setSearchQualifiers]=useState('');
     const [searchTerm, setSearchTerm] = useState('');
-    const inputRef= useRef(null);
+    const location = useLocation();
+
+    console.log(location.pathname.slice(1));
+
 
     function handleChange(event){
         switch(event.target.id){
@@ -21,6 +29,8 @@ function CodeSearchPage(){
                 break;
             case("repo"):
                 setRepo(event.target.value);
+                break;
+            default:
                 break;
         }
     }
@@ -34,9 +44,12 @@ function CodeSearchPage(){
         }
         event.preventDefault();
 
-        await updateSearchTerm();
-        
-        event.target.submit();
+        if(searchTerm && (user || org || repo)){
+
+            await updateSearchTerm();
+            
+            event.target.submit();
+        }
     }
 
     useEffect(()=>{
@@ -61,7 +74,7 @@ function CodeSearchPage(){
 
             <h3>Search Code</h3>
 
-            <form onSubmit={handleSubmit} method='get' action="http://localhost:3006/code">
+            <form onSubmit={handleSubmit} method='get'>
                 <label htmlFor="user">User: </label><input type='text' value={user} id="user" onChange={handleChange}></input>
                 <label htmlFor="org">Organization: </label><input type='text' id="org" value={org} onChange={handleChange}></input>
                 <label htmlFor="repo">Repositories: </label><input type='text' id="repo" value={repo} onChange={handleChange}></input>

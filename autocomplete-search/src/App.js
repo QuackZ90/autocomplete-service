@@ -11,11 +11,10 @@ import {
 
 function App() {
 
-  console.log(process.env);
 
   const CustomNavLink = ({ children, ...props }) => (
     <span>
-      <NavLink activeClassName="active" {...props}>
+      <NavLink className={({isActive})=>'nav-link'+(isActive? " active":"")} {...props}>
         {children}
       </NavLink>
       </span>

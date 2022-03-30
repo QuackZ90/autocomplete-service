@@ -5,20 +5,7 @@
     width:auto;
 }
 
-input[type='text']{
-    box-sizing: border-box;
-    width: 500px;
-    height: 30px;
-    border-radius:10px;
-    position:relative;
-    outline: none;
 
-}
-
-input[type='text']:focus{
-    outline: none;
-    border:solid cornflowerblue;
-}
 
 #suggested-drop-down{
     box-sizing: border-box;

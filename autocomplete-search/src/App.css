@@ -27,3 +27,12 @@ nav>span:not(:last-child):after{
   text-decoration: none;
   font-weight: bold;
 }
+
+.nav-link{
+  text-decoration: none;
+  color: cornflowerblue;
+}
+
+.nav-link:visited{
+  color: cornflowerblue;
+}

@@ -2,7 +2,7 @@
     display:flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 input{
@@ -11,5 +11,29 @@ input{
 
 form{
     width:500px;
+    text-align: start;
+    display:flex;
+    flex-direction: column;
 }
 
+input[type='submit']{
+    width:20%;
+    align-self: center;
+    margin:20px
+
+}
+
+input[type='text']{
+    box-sizing: border-box;
+    width: 500px;
+    height: 30px;
+    border-radius:10px;
+    position:relative;
+    outline: none;
+
+}
+
+input[type='text']:focus{
+    outline: none;
+    border:solid cornflowerblue;
+}
