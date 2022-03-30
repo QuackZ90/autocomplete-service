@@ -1,0 +1,43 @@
+.container{
+    position:relative;
+    display:inline-block;
+    overflow:hidden;
+    width:auto;
+}
+
+input[type='text']{
+    box-sizing: border-box;
+    width: 500px;
+    height: 30px;
+    border-radius:10px;
+    position:relative;
+    outline: none;
+
+}
+
+input[type='text']:focus{
+    outline: none;
+    border:solid cornflowerblue;
+}
+
+#suggested-drop-down{
+    box-sizing: border-box;
+    position:relative;
+    display:inline-block;
+    border: solid grey 1px;
+    border-radius:10px;
+    width:500px;
+    max-height: 100px;
+    overflow:auto;
+    
+    
+}
+
+#suggested-entry{
+    border-bottom:solid grey 1px;
+}
+
+#suggested-entry:hover{
+    background-color: cornflowerblue;
+
+}
