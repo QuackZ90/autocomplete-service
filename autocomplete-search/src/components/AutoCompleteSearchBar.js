@@ -18,7 +18,6 @@ function AutoCompleteSearchBar(props){
 
     const {endpoint} = props; //props accept end points to perform the search (required)
     const {searchQualifiers} = props; //props accepts an string of search qualifier as per Github search documentation (Optional) to refine suggested search terms.
-    const {onSubmit} = props;
     const{searchTerm, setSearchTerm} = props
 
     const location = useLocation();
@@ -53,14 +52,6 @@ function AutoCompleteSearchBar(props){
 
     function handleInputChange(event){
         setSearchTerm(event.target.value);
-    };
-
-    function handleSubmit(event){
-        event.preventDefault();
-        if(onSubmit){
-            onSubmit();
-        }
-
     };
 
     useEffect(()=>{

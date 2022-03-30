@@ -6,10 +6,20 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Link,
+  NavLink,
 } from 'react-router-dom';
 
 function App() {
+
+  const CustomNavLink = ({ children, ...props }) => (
+    <span>
+      <NavLink activeClassName="active" {...props}>
+        {children}
+      </NavLink>
+      </span>
+  );
+
+  
   return (
     <BrowserRouter>
     <header className='page-header'>
@@ -18,30 +28,30 @@ function App() {
       <div className='nav-bar'>
         <h4>Search by:</h4>
         <nav>
-            <span>
-              <Link className='nav-link' to="/">Home</Link>
-            </span>
-            <span>
-              <Link className='nav-link' to="/code">Code</Link>
-            </span>
-            <span>
-              <Link className='nav-link' to="/commits">Commits</Link>
-            </span>
-            <span>
-              <Link className='nav-link' to="/issues">Issues</Link>
-            </span>
-            <span>
-              <Link className='nav-link' to="/labels">Labels</Link>
-            </span>
-            <span>
-              <Link className='nav-link' to="/repositories">Repositories</Link>
-            </span>
-            <span>
-              <Link className='nav-link' to="/topics">Topics</Link>
-            </span>
-            <span>
-              <Link className='nav-link' to="/users">Users</Link>
-            </span>
+            {/* <span> */}
+              <CustomNavLink className='nav-link' to="/">Home</CustomNavLink>
+            {/* </span>
+            <span> */}
+              <CustomNavLink className='nav-link' to="/code">Code</CustomNavLink>
+            {/* </span>
+            <span> */}
+              <CustomNavLink className='nav-link' to="/commits">Commits</CustomNavLink>
+            {/* </span>
+            <span> */}
+              <CustomNavLink className='nav-link' to="/issues">Issues</CustomNavLink>
+            {/* </span>
+            <span> */}
+              <CustomNavLink className='nav-link' to="/labels">Labels</CustomNavLink>
+            {/* </span>
+            <span> */}
+              <CustomNavLink className='nav-link' to="/repositories">Repositories</CustomNavLink>
+            {/* </span>
+            <span> */}
+              <CustomNavLink className='nav-link' to="/topics">Topics</CustomNavLink>
+            {/* </span>
+            <span> */}
+              <CustomNavLink className='nav-link' to="/users">Users</CustomNavLink>
+            {/* </span> */}
         </nav>
       </div>
       <div>

@@ -22,3 +22,8 @@ nav{
 nav>span:not(:last-child):after{
   content:" | ";
 }
+
+.active{
+  text-decoration: none;
+  font-weight: bold;
+}
