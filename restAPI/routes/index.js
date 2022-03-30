@@ -1,13 +1,5 @@
 import express, { urlencoded } from 'express';
-import {
-    codeController,
-    commitsController,
-    issuesController,
-    labelsController,
-    repositoriesController,
-    topicsController,
-    usersController
-}from '../controller/index.js';
+import autocompleteRoute from "./autocomplete.route.js";
 import cors from 'cors';
 // import CommitsController from '../controller/CommitsController.js';
 
@@ -23,15 +15,10 @@ app.use((req, res, next)=>{
 });
 
 
-app.use(urlencoded({extended:true}))
+app.use(urlencoded({extended:true}));
+
+app.use('/autocomplete',autocompleteRoute);
 
 
-app.get('/code',codeController.autoComplete);
-app.get('/commits',commitsController.autoComplete);
-app.get('/issues',issuesController.autoComplete);
-app.get('/labels',labelsController.autoComplete);
-app.get('/repositories',repositoriesController.autoComplete);
-app.get('/topics',topicsController.autoComplete);
-app.get('/users',usersController.autoComplete);
 
 export default app;

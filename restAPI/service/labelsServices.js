@@ -117,7 +117,7 @@ const labelsServices ={
 
     },
 
-    
+    //below for own reference only   
     async search (searchParams){
 
         console.log(searchParams);

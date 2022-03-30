@@ -71,7 +71,7 @@ function AutoCompleteSearchBar(props){
             //update local search results from API
         function updateSearchFromAPI(endpoint, query){
 
-            searchAPI.get('/'+endpoint, {params:{q:query}}).then(res=>{
+            searchAPI.get('/autocomplete/'+endpoint, {params:{q:query}}).then(res=>{
 
                 console.log(res);
 
