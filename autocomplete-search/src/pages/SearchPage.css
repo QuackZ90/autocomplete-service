@@ -1,0 +1,15 @@
+.app-container{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+input{
+    display:block;
+}
+
+form{
+    width:500px;
+}
+
