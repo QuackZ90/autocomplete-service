@@ -59,6 +59,8 @@ function CodeSearchPage(){
     return(
         <div className="app-container">
 
+            <h3>Search Code</h3>
+
             <form onSubmit={handleSubmit} method='get' action="http://localhost:3006/code">
                 <label htmlFor="user">User: </label><input type='text' value={user} id="user" onChange={handleChange}></input>
                 <label htmlFor="org">Organization: </label><input type='text' id="org" value={org} onChange={handleChange}></input>

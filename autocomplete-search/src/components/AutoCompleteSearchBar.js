@@ -2,23 +2,13 @@ import {useState, useEffect, useRef} from 'react';
 import { useLocation } from 'react-router-dom';
 import searchAPI from '../API/searchAPI.js';
 import './AutoCompleteSearchBar.css';
-// import buildQualifiers from '../utils/buildQualifiers.js'; // for improvement, to check userinput for search qualifiers.
 
-const TEMPLATE = {
-    code:[],
-    commits:[],
-    issues:[],
-    labels:[],
-    repositories:[],
-    topics:[],
-    users:[],
-}
 
 function AutoCompleteSearchBar(props){
 
     const {endpoint} = props; //props accept end points to perform the search (required)
     const {searchQualifiers} = props; //props accepts an string of search qualifier as per Github search documentation (Optional) to refine suggested search terms.
-    const{searchTerm, setSearchTerm} = props
+    const{searchTerm, setSearchTerm} = props;
 
     const location = useLocation();
     //const [searchTerm, setSearchTerm] = useState('');
@@ -44,11 +34,6 @@ function AutoCompleteSearchBar(props){
         users:[],
     });
 
-    console.log(endpoint);
-
-    console.log(previousSearches);
-    console.log(previousSearchResults);
-    //console.log(qualifiers)
 
     function handleInputChange(event){
         setSearchTerm(event.target.value);

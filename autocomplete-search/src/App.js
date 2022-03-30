@@ -1,6 +1,7 @@
 import './App.css';
 import SearchPage from './pages/SearchPage';
 import CodeSearchPage from './pages/CodeSearchPage';
+import HomePage from './pages/HomePage';
 import {
   BrowserRouter,
   Routes,
@@ -9,6 +10,8 @@ import {
 } from 'react-router-dom';
 
 function App() {
+
+  console.log(process.env);
 
   const CustomNavLink = ({ children, ...props }) => (
     <span>
@@ -56,8 +59,8 @@ function App() {
       <div>
         <Routes>
           <Route path = "/code" element={<CodeSearchPage />}></Route>
-          <Route path = "/:id" element={<SearchPage />}>
-          </Route>
+          <Route path = "/:id" element={<SearchPage />}></Route>
+          <Route path = "/" element={<HomePage />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

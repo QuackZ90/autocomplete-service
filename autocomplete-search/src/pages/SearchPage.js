@@ -15,6 +15,7 @@ function SearchPage(){
 
     return(
         <div className="app-container">
+            <h3>Search {id[0].toUpperCase()+id.slice(1)}</h3>
             <form onSubmit={handleSubmit}>
                 <AutoCompleteSearchBar endpoint={id} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
                 <input type="submit" value="Search"></input>
