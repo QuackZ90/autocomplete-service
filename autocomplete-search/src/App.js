@@ -57,7 +57,7 @@ function App() {
       </div>
       <div>
         <Routes>
-          <Route path = "/code" element={<CodeSearchPage />}></Route>
+          {/* <Route path = "/code" element={<CodeSearchPage />}></Route> */}
           <Route path = "/:id" element={<SearchPage />}></Route>
           <Route path = "/" element={<HomePage />}></Route>
         </Routes>

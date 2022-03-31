@@ -9,6 +9,7 @@ function AutoCompleteSearchBar(props){
     const {endpoint} = props; //props accept end points to perform the search (required)
     const {searchQualifiers} = props; //props accepts an string of search qualifier as per Github search documentation (Optional) to refine suggested search terms.
     const{searchTerm, setSearchTerm} = props;
+    const inputRef = useRef(null);
 
     const location = useLocation();
     //const [searchTerm, setSearchTerm] = useState('');
@@ -39,6 +40,7 @@ function AutoCompleteSearchBar(props){
         setSearchTerm(event.target.value);
     };
 
+    //clear input when location changes
     useEffect(()=>{
         setSearchTerm('');
     },[location, setSearchTerm]);
@@ -103,7 +105,7 @@ function AutoCompleteSearchBar(props){
 
             let re;
 
-                re=searchTerm.replace(/\s?[\-.,:;\/\\`'"=*!?#$&+^|~<>(){}[\]@]+\s?/g,' ');
+                re=searchTerm.replace(/\s?[-.,:;/\\`'"=*!?#$&+^|~<>(){}[\]@]+\s?/g,' ');
                 re +='[a-z]*\\s?[a-z]+';
                 re = new RegExp(re,'i');
 
@@ -128,7 +130,7 @@ function AutoCompleteSearchBar(props){
     return(
         <div className='container'>
             {/* <form onSubmit={handleSubmit}> */}
-                <label htmlFor='q'>Search Term: </label><input type='text' value={searchTerm} id='q' name="q" onChange={handleInputChange} onKeyDown={()=>setSelected(false)}></input>
+                <label htmlFor='q'>Search Term: </label><input type='text' value={searchTerm} id='q' name="q" onChange={handleInputChange} onKeyDown={()=>setSelected(false)} ref={inputRef}></input>
             {/* </form> */}
             <div>
                 {suggested.length >0
@@ -139,7 +141,9 @@ function AutoCompleteSearchBar(props){
                     }else{
                         return <div key={entry} id="suggested-entry" onClick={()=>{
                             setSearchTerm(entry);
-                            setSelected(true)}}>{entry}</div>
+                            setSelected(true);
+                            inputRef.current.focus();
+                        }}>{entry}</div>
                     }})
                 }</div>: null
                 }</div>
