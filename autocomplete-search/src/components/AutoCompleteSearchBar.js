@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import searchAPI from '../API/searchAPI.js';
 import './AutoCompleteSearchBar.css';
 
+const CACHE_ON = true;
+
 
 function AutoCompleteSearchBar(props){
 
@@ -13,7 +15,7 @@ function AutoCompleteSearchBar(props){
 
     const location = useLocation();
     //const [searchTerm, setSearchTerm] = useState('');
-    const [previousSearchResults, setPreviousSearchResults] = useState({
+    const [searchResults, setSearchResults] = useState({
         code:[],
         commits:[],
         issues:[],
@@ -24,6 +26,7 @@ function AutoCompleteSearchBar(props){
     });
     const [suggested, setSuggested] = useState([]);
     const [selected, setSelected] = useState(false);
+    const [limitHit, setLimitHit] = useState(false);
 
     const previousSearches = useRef({
         code:[],
@@ -62,13 +65,24 @@ function AutoCompleteSearchBar(props){
 
                 console.log(res);
 
+                if (res.data.results.message === "cached results shown due to API rate exceeds limit"){
+                    setLimitHit ((prev)=>true);
+                }
+
+                else{
+                    setLimitHit((prev)=>false);
+                }
+
                 if (res.data.results.data.length>0){
                     // save results to previous search results and remove duplicates
-                    setPreviousSearchResults(current=>{
-                        let previousResults = {...current};
-                        previousResults[endpoint].push(...res.data.results.data);
-                        previousResults[endpoint] = [...(new Set(previousResults[endpoint]))]; //removes duplicate
-                        return previousResults;
+                    setSearchResults(current=>{
+                        let results
+                        if(CACHE_ON){
+                            results = {...current};
+                        }
+                        results[endpoint].push(...res.data.results.data);
+                        results[endpoint] = [...(new Set(results[endpoint]))]; //removes duplicate
+                        return results;
                     });
                 };
 
@@ -76,20 +90,27 @@ function AutoCompleteSearchBar(props){
                     console.log('test');
                     previousSearches.current[endpoint].push(endpoint+query);
                 }
+                console.log(limitHit)
             }).catch(err=>{
 
                     console.log(err.response);
-
+                    
+                if (err.response.data.results.statusText === 'rate limit exceeded'){
+                    setLimitHit((prev)=>true);
+                } else{
+                    setLimitHit((prev)=>false);
+                }
+                console.log(limitHit)
             })
 
         };
 
         //kick start first call to build up local search database. Do not search again if term previously searched.
-        if (searchTerm.length===3 && !previousSearches.current[endpoint].includes(endpoint+query) && !selected){
+        if (searchTerm.length===3 && !selected){ //&& !previousSearches.current[endpoint].includes(endpoint+query)
 
             updateSearchFromAPI(endpoint,query);
            
-        }else if (searchTerm.length>0 && !previousSearches.current[endpoint].includes(endpoint+query)&& !selected){
+        }else if (searchTerm.length>0 && !selected){ //&& !previousSearches.current[endpoint].includes(endpoint+query)
 
             //subsequent calls to update database only when no change to input field in 1000ms
             const timeoutHandler = setTimeout(()=>{updateSearchFromAPI(endpoint,query)},1000)
@@ -106,17 +127,18 @@ function AutoCompleteSearchBar(props){
             let re;
 
                 re=searchTerm.replace(/\s?[-.,:;/\\`'"=*!?#$&+^|~<>(){}[\]@]+\s?/g,' ');
-                re +='[a-z]*\\s?[a-z]+';
+                re +='[a-z0-9]*\\s?[a-z0-9]+';
                 re = new RegExp(re,'i');
 
-                console.log(previousSearchResults);
+                console.log(searchResults);
                 console.log(previousSearches.current);
-                let filteredResults = previousSearchResults[endpoint].filter(result=>re.test(result));
+                let filteredResults = searchResults[endpoint].filter(result=>re.test(result));
                 console.log(filteredResults);
                 if(filteredResults.length!==0){
                     let matches = filteredResults.map(result=>result.match(re)[0].toLowerCase().trim());
                     // remove duplicates
                     let uniqueMatches = [...(new Set(matches))];
+                    console.log(uniqueMatches);
                     setSuggested(uniqueMatches);
                 }else{
                     setSuggested(['No Suggestion at the moment...'])
@@ -124,11 +146,13 @@ function AutoCompleteSearchBar(props){
         } else{
             setSuggested([]);
         }
-    },[searchTerm, previousSearchResults,selected,endpoint]);
+    },[searchTerm, searchResults,selected,endpoint]);
 
 
     return(
         <div className='container'>
+
+            {limitHit&&searchTerm?<div>Cached results shown due to API exceeded limit</div>:null}
             {/* <form onSubmit={handleSubmit}> */}
                 <label htmlFor='q'>Search Term: </label><input type='text' value={searchTerm} id='q' name="q" onChange={handleInputChange} onKeyDown={()=>setSelected(false)} ref={inputRef}></input>
             {/* </form> */}
@@ -136,7 +160,7 @@ function AutoCompleteSearchBar(props){
                 {suggested.length >0
                     ?<div id="suggested-drop-down">
                 {suggested.sort().slice(0,20).map(entry=>{
-                    if (entry==='No Suggestion at the moment...'){
+                    if (entry==='No Suggestion at the moment...' || entry === 'Rate Limit exceed. Please try again later.'){
                         return <div key={entry} id="suggested-entry">{entry}</div>
                     }else{
                         return <div key={entry} id="suggested-entry" onClick={()=>{

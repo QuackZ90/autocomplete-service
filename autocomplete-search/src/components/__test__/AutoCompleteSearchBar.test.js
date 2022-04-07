@@ -110,12 +110,9 @@ describe("Tests for AutoComplete Search Bar", ()=>{
         userEvent.click(screen.getByText("test api"));
         expect(setSearchTerm).toBeCalled();
 
-
         unmount();
 
     });
-
-
 
 
 })
