@@ -106,12 +106,16 @@ class UsersServices extends GeneralServices{
 
 
         if(results.status===403 && results.statusText === 'rate limit exceeded'){
-            if(this.#pastAutoCompleteSearches.includes(searchParams.q)){
-                results.data = this.#pastAutoCompleteResults.filter(searchParams.q);
+            let re = new RegExp(searchParams.q,'i');
+
+            let cachedResults = this.#pastAutoCompleteResults.filter((result)=>re.test(result));
+            if (cachedResults.length > 0){
+                results.data = cachedResults;
                 results.message = "cached results shown due to API rate exceeds limit";
                 results.status = 200;
-            }
+            } 
         }
+
         console.log(entriesScanned);
         console.log(results.data.length);
         console.log(this.#pastAutoCompleteResults);

@@ -1,5 +1,5 @@
 import githubSearchAPI from "../API/githubSearchAPI.js";
-const SEARCHLIMIT = 200;
+const SEARCHLIMIT = 1000;
 
 class GeneralServices{
 
@@ -112,8 +112,11 @@ class GeneralServices{
 
 
         if(results.status===403 && results.statusText === 'rate limit exceeded'){
-            if(this.#pastAutoCompleteSearches.includes(searchParams.q)){
-                results.data = this.#pastAutoCompleteResults.filter(searchParams.q);
+            let re = new RegExp(searchParams.q,'i');
+
+            let cachedResults = this.#pastAutoCompleteResults.filter((result)=>re.test(result));
+            if (cachedResults.length > 0){
+                results.data = cachedResults;
                 results.message = "cached results shown due to API rate exceeds limit";
                 results.status = 200;
             }

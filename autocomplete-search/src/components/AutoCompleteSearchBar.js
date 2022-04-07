@@ -93,14 +93,14 @@ function AutoCompleteSearchBar(props){
                 console.log(limitHit)
             }).catch(err=>{
 
-                    console.log(err.response);
+                console.log(err.response);
                     
                 if (err.response.data.results.statusText === 'rate limit exceeded'){
                     setLimitHit((prev)=>true);
                 } else{
                     setLimitHit((prev)=>false);
                 }
-                console.log(limitHit)
+                console.log(limitHit);
             })
 
         };
